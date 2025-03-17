@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "next": "15.1.7",
+    "nextjs-matchzone": "link:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass": "1.84.0"

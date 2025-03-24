@@ -1,24 +1,26 @@
 import './globals.css';
+import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
+import { getUser } from '../database/users';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 
-interface LayoutProps {
-  children: ReactNode;
-}
+export default async function Layout({ children }: { children: ReactNode }) {
+  const sessionTokenCookie = (await cookies()).get('sessionToken');
 
-export default function Layout({ children }: LayoutProps) {
+  const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
+
   return (
     <html lang="en">
       <body className="bg-gray-100 text-gray-900">
-        <Navbar /> {/* Top Navigation */}
+        <Navbar user={user} />
+
         <div className="flex h-screen">
-          <Sidebar /> {/* Left Sidebar */}
-          <main className="flex-1 p-6 overflow-auto">{children}</main>{' '}
-          {/* Main Content */}
+          <Sidebar />
+          <main className="flex-1 p-6 overflow-auto">{children}</main>
         </div>
-        <Footer /> {/* Footer */}
+        <Footer />
       </body>
     </html>
   );

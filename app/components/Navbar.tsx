@@ -3,16 +3,22 @@
 import type { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
+import LogoutButton from '../(auth)/logout/LogoutButton';
 
-export default function Navbar() {
+export default function Navbar({
+  user,
+}: {
+  user: { id: number; username: string } | null | undefined;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Define type-safe routes
   const routes = {
     home: '/' as Route,
     standings: '/standings' as Route,
     teams: '/teams' as Route,
     players: '/players' as Route,
+    login: '/login' as Route,
+    register: '/register' as Route,
   };
 
   return (
@@ -50,15 +56,30 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Search Bar & Login - Desktop */}
+        {/* Search Bar & Auth - Desktop */}
         <div className="hidden md:flex items-center gap-4">
           <input
             placeholder="Search..."
             className="p-2 rounded-md text-black border border-gray-300"
           />
-          <button className="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-gray-200">
-            Login
-          </button>
+          {!user ? (
+            <div className="flex gap-2">
+              <Link
+                href={routes.login}
+                className="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-gray-200 flex items-center justify-center"
+              >
+                Login
+              </Link>
+              <Link
+                href={routes.register}
+                className="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-gray-200 flex items-center justify-center"
+              >
+                Register
+              </Link>
+            </div>
+          ) : (
+            <LogoutButton />
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -94,6 +115,27 @@ export default function Navbar() {
                 Players
               </Link>
             </li>
+            {!user ? (
+              <>
+                <li>
+                  <Link href={routes.login} className="block hover:underline">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={routes.register}
+                    className="block hover:underline"
+                  >
+                    Register
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <LogoutButton />
+              </li>
+            )}
           </ul>
         </div>
       )}

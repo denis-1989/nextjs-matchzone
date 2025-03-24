@@ -49,8 +49,13 @@ export default function MatchList() {
           },
         },
       );
-      if (!res.ok) throw new Error('Failed to fetch match data');
-
+      if (!res.ok) {
+        return (
+          <div className="p-6 bg-white shadow-md rounded-lg">
+            <h2 className="text-xl font-bold mb-4">API not working</h2>
+          </div>
+        );
+      }
       // Explicitly define data type as ApiResponse
       const data: ApiResponse = await res.json();
 

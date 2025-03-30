@@ -1,15 +1,17 @@
 import PlayerDetails from './PlayerDetails';
 
-// Server Component for Player Page
-export default async function PlayerPage({
-  params,
-}: {
-  params: { id?: string };
-}) {
-  const playerId = (await params).id;
-  if (!playerId) {
+type PageProps = {
+  params: Promise<{
+    id?: string;
+  }>;
+};
+
+export default async function PlayerPage({ params }: PageProps) {
+  const { id } = await params;
+
+  if (!id) {
     return <p className="text-center text-red-500">Invalid player ID.</p>;
   }
 
-  return <PlayerDetails playerId={playerId} />;
+  return <PlayerDetails playerId={id} />;
 }

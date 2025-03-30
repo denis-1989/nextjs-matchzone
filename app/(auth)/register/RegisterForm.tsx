@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getSafeReturnToPath } from '../../../util/validation';
@@ -38,7 +39,8 @@ export default function RegisterForm(props: Props) {
     // );
 
     router.push(
-      getSafeReturnToPath(props.returnTo) || `/profile/${data.user.username}`,
+      getSafeReturnToPath(props.returnTo) ||
+        (`/profile/${data.user.username}` as Route),
     );
 
     router.refresh();

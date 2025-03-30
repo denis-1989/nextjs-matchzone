@@ -1,15 +1,17 @@
 import TeamDetails from './TeamDetails';
 
-export default async function TeamPage({
-  params,
-}: {
-  params: { id?: string };
-}) {
-  const teamId = (await params).id;
+type PageProps = {
+  params: Promise<{
+    id?: string;
+  }>;
+};
 
-  if (!teamId) {
-    return <p className="text-center text-red-500">Invalid Team ID.</p>;
+export default async function TeamPage({ params }: PageProps) {
+  const { id } = await params;
+
+  if (!id) {
+    return <p className="text-center text-red-500">Invalid team ID.</p>;
   }
 
-  return <TeamDetails teamId={teamId} />;
+  return <TeamDetails teamId={id} />;
 }

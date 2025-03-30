@@ -1,39 +1,42 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-// import { useRouter } from 'next/navigation';
 import { getUser } from '../../database/users';
 
 export default async function ProfilePage() {
-  // const router = useRouter();
   const sessionTokenCookie = (await cookies()).get('sessionToken');
-
   const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
-  console.log(user);
+
   if (!user) {
     redirect('/');
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md text-center">
-        <h2 className="text-3xl font-bold mb-4 text-blue-700">
-          {user.username}'s Profile
-        </h2>
-        <p className="text-gray-600">
-          Welcome to your MatchZone profile! Here you will be able to manage
-          your teams, favorite leagues, and personal info.
-        </p>
+    <div className="flex justify-center items-center min-h-screen bg-[url('/team-header1.jpg')] bg-cover bg-center">
+      <Card className="w-full max-w-md bg-white/90 backdrop-blur-md shadow-xl rounded-2xl">
+        <CardHeader>
+          <CardTitle className="text-center text-3xl font-bold text-blue-800">
+            {user.username}'s Profile
+          </CardTitle>
+        </CardHeader>
 
-        <div className="mt-6 space-y-4">
-          <button className="w-full py-2 px-4 rounded bg-blue-700 text-white hover:bg-blue-800">
-            Edit Profile
-          </button>
-          {/* <button className="w-full py-2 px-4 rounded bg-red-500 text-white hover:bg-red-600">
-            Logout
-          </button> */}
-          {/* <LogoutButton /> */}
-        </div>
-      </div>
+        <CardContent className="text-center space-y-6">
+          <p className="text-gray-700 text-base">
+            Welcome to your MatchZone profile! Here you can manage your teams,
+            favorite leagues, and personal preferences.
+          </p>
+
+          <div className="space-y-3">
+            <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white">
+              Edit Profile
+            </Button>
+            {/* <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+              Logout
+            </Button> */}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

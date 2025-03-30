@@ -1,9 +1,10 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-// Define Team Interface
 interface Team {
   id: number;
   name: string;
@@ -16,7 +17,6 @@ interface Team {
   pts: number;
 }
 
-// Define API Response Type
 interface ApiResponse {
   response?: {
     list?: Team[];
@@ -51,8 +51,6 @@ export default function TeamList() {
         }
 
         const data: ApiResponse = await response.json();
-        console.log('API Response:', data);
-
         if (!data.response?.list) {
           throw new Error('No teams found.');
         }
@@ -66,7 +64,6 @@ export default function TeamList() {
       }
     }
 
-    // FIX: Call fetchTeams and handle errors properly
     fetchTeams().catch((err) => console.error('Unhandled error:', err));
   }, []);
 
@@ -78,29 +75,40 @@ export default function TeamList() {
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-md">
-      <h1 className="text-2xl font-bold text-center mb-6">All Teams</h1>
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {teams.map((team) => (
-          <li
-            key={`team-${team.id}`}
-            className="border p-4 rounded-md shadow-md hover:shadow-lg transition"
-          >
-            <Link href={`/teams/${team.id}`} className="block text-center">
-              <img
-                src={team.logo}
-                alt={team.name}
-                className="w-16 h-16 mx-auto mb-2"
-              />
-              <p className="font-semibold">{team.name}</p>
-              <p className="text-sm text-gray-500">
-                Played: {team.played} | Wins: {team.wins} | Draws: {team.draws} {' '}
-                | Losses: {team.losses} | Points: {team.pts}
-              </p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center">All Teams</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {teams.map((team) => (
+              <li key={`team-${team.id}`}>
+                <Link href={`/teams/${team.id}`} className="block">
+                  <Card className="text-center hover:shadow-lg transition p-4">
+                    <img
+                      src={team.logo}
+                      alt={team.name}
+                      className="w-16 h-16 mx-auto mb-2"
+                    />
+                    <p className="font-semibold mb-1">{team.name}</p>
+                    <div className="flex flex-wrap gap-1 justify-center text-sm text-gray-500">
+                      <Badge variant="outline">Played: {team.played}</Badge>
+                      <Badge variant="outline">Wins: {team.wins}</Badge>
+                      <Badge variant="outline">Draws: {team.draws}</Badge>
+                      <Badge variant="outline">Losses: {team.losses}</Badge>
+                      <Badge variant="default">Points: {team.pts}</Badge>
+                    </div>
+                  </Card>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 }

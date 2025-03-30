@@ -1,5 +1,7 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 
 interface PlayerDetailsProps {
@@ -19,7 +21,6 @@ interface PlayerDetail {
   imageUrl?: string;
 }
 
-// Define API Response Types
 interface PlayerApiResponse {
   response?: {
     detail?: {
@@ -61,76 +62,46 @@ export default function PlayerDetails({ playerId }: PlayerDetailsProps) {
   useEffect(() => {
     async function fetchPlayerDetails() {
       try {
-        // Fetch Player List (General Info)
+        const apiHeaders = {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key':
+              'a4fef4d77emshc945f174f59df2ap1e008ejsncf9aa79bd3cb',
+            'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
+          },
+        };
+
         const listRes = await fetch(
           'https://free-api-live-football-data.p.rapidapi.com/football-get-list-player?teamid=8650',
-          {
-            method: 'GET',
-            headers: {
-              'x-rapidapi-key':
-                'a4fef4d77emshc945f174f59df2ap1e008ejsncf9aa79bd3cb',
-              'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-            },
-          },
+          apiHeaders,
         );
 
-        if (!listRes.ok) {
-          throw new Error(`Failed to fetch player list: ${listRes.status}`);
-        }
+        if (!listRes.ok) throw new Error('Failed to fetch player list');
 
         const listData: PlayerListApiResponse = await listRes.json();
-        console.log('Player List API Response:', listData);
-
-        // Extract Player Data from the List
         const playerFromList = listData.response?.list
           .flatMap((category) => category.members)
           .find((p) => p.id.toString() === playerId);
 
         if (!playerFromList) throw new Error('Player not found in the list.');
 
-        // Fetch Player Details
         const detailRes = await fetch(
           `https://free-api-live-football-data.p.rapidapi.com/football-get-player-detail?playerid=${playerId}`,
-          {
-            method: 'GET',
-            headers: {
-              'x-rapidapi-key':
-                'a4fef4d77emshc945f174f59df2ap1e008ejsncf9aa79bd3cb',
-              'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-            },
-          },
+          apiHeaders,
         );
 
-        if (!detailRes.ok) {
-          throw new Error(
-            `Failed to fetch player details: ${detailRes.status}`,
-          );
-        }
+        if (!detailRes.ok) throw new Error('Failed to fetch player details');
         const detailData: PlayerApiResponse = await detailRes.json();
-        console.log('Player Details API Response:', detailData);
-
-        // Extract Player Details
         const playerInfo = detailData.response?.detail || [];
 
         const imageRes = await fetch(
           `https://free-api-live-football-data.p.rapidapi.com/football-get-player-logo?playerid=${playerId}`,
-          {
-            method: 'GET',
-            headers: {
-              'x-rapidapi-key':
-                'a4fef4d77emshc945f174f59df2ap1e008ejsncf9aa79bd3cb',
-              'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com',
-            },
-          },
+          apiHeaders,
         );
 
-        if (!imageRes.ok) {
-          throw new Error(`Failed to fetch player image: ${imageRes.status}`);
-        }
+        if (!imageRes.ok) throw new Error('Failed to fetch player image');
         const imageData: PlayerImageResponse = await imageRes.json();
-        console.log('Player Image API Response:', imageData);
 
-        // Organize All Data into One Object
         const extractedDetails: PlayerDetail = {
           id: playerId,
           name: playerFromList.name || 'Unknown',
@@ -141,13 +112,12 @@ export default function PlayerDetails({ playerId }: PlayerDetailsProps) {
               (item) => item.translationKey === 'height_sentencecase',
             )?.value?.fallback || 'Unknown',
           shirtNumber:
-            playerInfo
-              .find((item) => item.translationKey === 'shirt')
-              ?.value?.fallback?.toString() || 'N/A',
+            playerInfo.find((item) => item.translationKey === 'shirt')?.value
+              ?.fallback || 'N/A',
           age:
-            playerInfo
-              .find((item) => item.translationKey === 'age_sentencecase')
-              ?.value?.fallback?.toString() || 'Unknown',
+            playerInfo.find(
+              (item) => item.translationKey === 'age_sentencecase',
+            )?.value?.fallback || 'Unknown',
           preferredFoot:
             playerInfo.find((item) => item.translationKey === 'preferred_foot')
               ?.value?.fallback || 'Unknown',
@@ -157,7 +127,6 @@ export default function PlayerDetails({ playerId }: PlayerDetailsProps) {
           imageUrl: imageData.response?.url || '/default-player.png',
         };
 
-        console.log('Extracted Player Details:', extractedDetails);
         setPlayer(extractedDetails);
       } catch (err) {
         setError('Error fetching player details.');
@@ -180,35 +149,41 @@ export default function PlayerDetails({ playerId }: PlayerDetailsProps) {
 
   if (error || !player) {
     return (
-      <p className="text-center text-red-500">
-        {error || 'Player details not available.'}
-      </p>
+      <p className="text-center text-red-500">{error || 'Player not found.'}</p>
     );
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-md text-center">
-      <img
-        src={player.imageUrl}
-        alt={player.name}
-        className="w-32 h-32 mx-auto rounded-full border border-gray-300"
-      />
-      <h2 className="text-2xl font-bold mt-4">{player.name}</h2>
-      <p className="text-gray-700">Role: {player.role}</p>
-      <p className="text-gray-700">Nationality: {player.nationality}</p>
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">{player.name}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <img
+            src={player.imageUrl}
+            alt={player.name}
+            className="w-32 h-32 mx-auto rounded-full border mb-4"
+          />
+          <div className="text-center space-y-2">
+            <Badge variant="secondary">Role: {player.role}</Badge>
+            <Badge variant="secondary">Nationality: {player.nationality}</Badge>
 
-      {/* Show detailed info only for players, not coaches */}
-      {!player.role.toLowerCase().includes('coach') && (
-        <>
-          <p className="text-gray-700">Height: {player.height}</p>
-          <p className="text-gray-700">Shirt Number: {player.shirtNumber}</p>
-          <p className="text-gray-700">Age: {player.age}</p>
-          <p className="text-gray-700">
-            Preferred Foot: {player.preferredFoot}
-          </p>
-          <p className="text-gray-700">Market Value: {player.marketValue}</p>
-        </>
-      )}
+            {!player.role.toLowerCase().includes('coach') && (
+              <>
+                <Badge variant="outline">Height: {player.height}</Badge>
+                <Badge variant="outline">Shirt: {player.shirtNumber}</Badge>
+                <Badge variant="outline">Age: {player.age}</Badge>
+                <Badge variant="outline">Foot: {player.preferredFoot}</Badge>
+                <Badge variant="default">Value: {player.marketValue}</Badge>
+              </>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

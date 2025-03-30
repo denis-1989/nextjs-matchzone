@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
 
-// Define props for the MatchCard component
 interface MatchProps {
   homeTeam: string;
   awayTeam: string;
@@ -10,7 +11,6 @@ interface MatchProps {
   status: string;
 }
 
-// Functional component to display match details
 export default function MatchCard({
   homeTeam,
   awayTeam,
@@ -20,23 +20,25 @@ export default function MatchCard({
   status,
 }: MatchProps) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-      {/* Match Status */}
-      <p className="text-sm text-gray-500">{status}</p>
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 hover:shadow-md transition">
+      {/* Status */}
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-xs font-medium text-gray-500">{status}</span>
+        <span className="text-xs text-gray-400">{matchTime}</span>
+      </div>
 
-      {/* Teams & Score */}
-      <div className="flex justify-between items-center text-lg font-semibold">
-        <span>{homeTeam}</span>
-        <span className="text-blue-600">
+      {/* Teams and Score */}
+      <div className="flex items-center justify-between font-semibold text-sm md:text-base">
+        <span className="truncate w-1/3 text-left">{homeTeam}</span>
+
+        <span className="text-center text-blue-700 font-bold text-lg md:text-xl w-1/3">
           {homeScore !== null && awayScore !== null
             ? `${homeScore} - ${awayScore}`
             : 'VS'}
         </span>
-        <span>{awayTeam}</span>
-      </div>
 
-      {/* Match Time */}
-      <p className="text-sm text-gray-600 mt-2">{matchTime}</p>
+        <span className="truncate w-1/3 text-right">{awayTeam}</span>
+      </div>
     </div>
   );
 }

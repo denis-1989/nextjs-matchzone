@@ -1,5 +1,8 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
 
 interface Team {
@@ -16,14 +19,12 @@ interface Team {
   pts: number;
 }
 
-// Define API Response Type
 interface ApiResponse {
   response?: {
     list?: Team[];
   };
 }
 
-// Define Props for TeamDetails
 interface TeamDetailsProps {
   teamId: string;
 }
@@ -46,7 +47,6 @@ export default function TeamDetails({ teamId }: TeamDetailsProps) {
           },
         };
 
-        // Fetch Home Teams
         const homeRes = await fetch(
           'https://free-api-live-football-data.p.rapidapi.com/football-get-list-home-team?leagueid=42',
           apiHeaders,
@@ -56,7 +56,6 @@ export default function TeamDetails({ teamId }: TeamDetailsProps) {
           setHomeTeams(homeData.response.list);
         }
 
-        // Fetch Away Teams
         const awayRes = await fetch(
           'https://free-api-live-football-data.p.rapidapi.com/football-get-list-away-team?leagueid=42',
           apiHeaders,
@@ -87,52 +86,83 @@ export default function TeamDetails({ teamId }: TeamDetailsProps) {
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-md text-center">
-      <h1 className="text-2xl font-bold mb-4">Team Information</h1>
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <div className="max-w-6xl mx-auto">
+        <Card className="bg-white shadow-xl rounded-lg">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl md:text-3xl font-bold text-gray-800">
+              Team Match Details
+            </CardTitle>
+          </CardHeader>
 
-      {/* Home Teams */}
-      <h2 className="text-lg font-semibold mt-6">Home Teams</h2>
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {homeTeams.map((team) => (
-          <li
-            key={`team-${team.id}`}
-            className="border p-4 rounded-md shadow-md"
-          >
-            <img
-              src={team.logo}
-              alt={team.name}
-              className="w-16 h-16 mx-auto mb-2"
-            />
-            <p className="font-semibold">{team.name}</p>
-            <p className="text-gray-500">
-              Played: {team.played} | Wins: {team.wins} | Draws: {team.draws} |
-              Losses: {team.losses}
-            </p>
-          </li>
-        ))}
-      </ul>
+          <CardContent>
+            {/* Home Matches */}
+            <section className="mb-8">
+              <h2 className="text-xl font-bold text-blue-700 mb-4 border-b pb-2">
+                Home Matches
+              </h2>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {homeTeams.map((team) => (
+                  <li key={`home-${team.id}`}>
+                    <Card className="text-center p-4 hover:shadow-md transition">
+                      <img
+                        src={team.logo}
+                        alt={team.name}
+                        className="w-16 h-16 mx-auto mb-2"
+                      />
+                      <p className="font-semibold mb-1 text-gray-800">
+                        {team.name}
+                      </p>
+                      <div className="flex flex-wrap gap-1 justify-center text-sm text-gray-600 mt-2">
+                        <Badge variant="outline">Played: {team.played}</Badge>
+                        <Badge variant="outline">Wins: {team.wins}</Badge>
+                        <Badge variant="outline">Draws: {team.draws}</Badge>
+                        <Badge variant="outline">Losses: {team.losses}</Badge>
+                        <Badge variant="default">Points: {team.pts}</Badge>
+                      </div>
+                    </Card>
+                  </li>
+                ))}
+              </ul>
+            </section>
 
-      {/* Away Teams */}
-      <h2 className="text-lg font-semibold mt-6">Away Teams</h2>
-      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {awayTeams.map((team) => (
-          <li
-            key={`team-${team.id}`}
-            className="border p-4 rounded-md shadow-md"
-          >
-            <img
-              src={team.logo}
-              alt={team.name}
-              className="w-16 h-16 mx-auto mb-2"
-            />
-            <p className="font-semibold">{team.name}</p>
-            <p className="text-gray-500">
-              Played: {team.played} | Wins: {team.wins} | Draws: {team.draws} |
-              Losses: {team.losses}
-            </p>
-          </li>
-        ))}
-      </ul>
+            <Separator className="my-6" />
+
+            {/* Away Matches */}
+            <section>
+              <h2 className="text-xl font-bold text-blue-700 mb-4 border-b pb-2">
+                Away Matches
+              </h2>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {awayTeams.map((team) => (
+                  <li key={`away-${team.id}`}>
+                    <Card className="text-center p-4 hover:shadow-md transition">
+                      <img
+                        src={team.logo}
+                        alt={team.name}
+                        className="w-16 h-16 mx-auto mb-2"
+                      />
+                      <p className="font-semibold mb-1 text-gray-800">
+                        {team.name}
+                      </p>
+                      <div className="flex flex-wrap gap-1 justify-center text-sm text-gray-600 mt-2">
+                        <Badge variant="outline">Played: {team.played}</Badge>
+                        <Badge variant="outline">Wins: {team.wins}</Badge>
+                        <Badge variant="outline">Draws: {team.draws}</Badge>
+                        <Badge variant="outline">Losses: {team.losses}</Badge>
+                        <Badge variant="default">Points: {team.pts}</Badge>
+                      </div>
+                    </Card>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

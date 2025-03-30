@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -14,141 +16,98 @@ export default function Navbar({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-700 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link
-          href={appRoutes.home as Route}
-          className="text-2xl font-bold hover:opacity-80"
-        >
+    <header className="w-full border-b bg-white shadow-sm relative">
+      <div
+        className="w-full h-20 bg-cover bg-center"
+        style={{ backgroundImage: "url('/navbar-photo.jpg')" }}
+      />
+
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between -mt-20 relative z-10">
+        <div className="text-2xl font-bold text-white drop-shadow-lg">
           MatchZone
-        </Link>
+        </div>
 
-        {/* Navigation Links - Desktop */}
-        <ul className="hidden md:flex gap-6">
-          <li>
-            <Link href={appRoutes.home as Route} className="hover:underline">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={appRoutes.standings as Route}
-              className="hover:underline"
-            >
-              Standings
-            </Link>
-          </li>
-          <li>
-            <Link href={appRoutes.teams as Route} className="hover:underline">
-              Teams
-            </Link>
-          </li>
-          <li>
-            <Link href={appRoutes.players as Route} className="hover:underline">
-              Players
-            </Link>
-          </li>
-        </ul>
+        <nav className="hidden md:flex gap-6 items-center">
+          <Link
+            href="/"
+            className="text-sm text-white hover:text-blue-300 transition"
+          >
+            Live Matches
+          </Link>
+          <Link
+            href={appRoutes.standings as Route}
+            className="text-sm text-white hover:text-blue-300 transition"
+          >
+            Standings
+          </Link>
+          <Link
+            href={appRoutes.teams as Route}
+            className="text-sm text-white hover:text-blue-300 transition"
+          >
+            Teams
+          </Link>
+          <Link
+            href={appRoutes.players as Route}
+            className="text-sm text-white hover:text-blue-300 transition"
+          >
+            Players
+          </Link>
+        </nav>
 
-        {/* Search Bar & Auth - Desktop */}
+        {/* Search + Auth */}
         <div className="hidden md:flex items-center gap-4">
-          <input
-            placeholder="Search..."
-            className="p-2 rounded-md text-black border border-gray-300"
-          />
+          <Input type="text" placeholder="Search..." className="w-48" />
           {!user ? (
-            <div className="flex gap-2">
-              <Link
-                href={appRoutes.login as Route}
-                className="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-gray-200 flex items-center justify-center"
-              >
-                Login
+            <>
+              <Link href={appRoutes.login as Route}>
+                <Button variant="outline">Login</Button>
               </Link>
-              <Link
-                href={appRoutes.register as Route}
-                className="bg-white text-blue-700 px-4 py-2 rounded-md hover:bg-gray-200 flex items-center justify-center"
-              >
-                Register
+              <Link href={appRoutes.register as Route}>
+                <Button>Register</Button>
               </Link>
-            </div>
+            </>
           ) : (
             <LogoutButton />
           )}
         </div>
 
-        {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-white focus:outline-none text-2xl"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           ☰
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-blue-800 p-4 mt-2 rounded-md">
-          <ul className="flex flex-col gap-4">
-            <li>
-              <Link
-                href={appRoutes.home as Route}
-                className="block hover:underline"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={appRoutes.standings as Route}
-                className="block hover:underline"
-              >
-                Standings
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={appRoutes.teams as Route}
-                className="block hover:underline"
-              >
-                Teams
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={appRoutes.players as Route}
-                className="block hover:underline"
-              >
-                Players
-              </Link>
-            </li>
+        <div className="md:hidden px-6 py-4 bg-gray-100 border-t">
+          <nav className="flex flex-col gap-4 mb-4">
+            <Link href="/" className="text-gray-700 font-semibold">
+              Live Matches
+            </Link>
+            <Link href={appRoutes.standings as Route}>Standings</Link>
+            <Link href={appRoutes.teams as Route}>Teams</Link>
+            <Link href={appRoutes.players as Route}>Players</Link>
+          </nav>
+
+          <div className="flex flex-col gap-2">
             {!user ? (
               <>
-                <li>
-                  <Link
-                    href={appRoutes.login as Route}
-                    className="block hover:underline"
-                  >
+                <Link href={appRoutes.login as Route}>
+                  <Button variant="outline" className="w-full">
                     Login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={appRoutes.register as Route}
-                    className="block hover:underline"
-                  >
-                    Register
-                  </Link>
-                </li>
+                  </Button>
+                </Link>
+                <Link href={appRoutes.register as Route}>
+                  <Button className="w-full">Register</Button>
+                </Link>
               </>
             ) : (
-              <li>
-                <LogoutButton />
-              </li>
+              <LogoutButton />
             )}
-          </ul>
+          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

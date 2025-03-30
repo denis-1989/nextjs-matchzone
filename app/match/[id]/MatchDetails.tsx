@@ -1,5 +1,8 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -22,7 +25,7 @@ interface ApiResponse {
 
 export default function MatchDetails() {
   const { id } = useParams();
-  const matchId = Array.isArray(id) ? id[0] : id; // Ensure ID is a string
+  const matchId = Array.isArray(id) ? id[0] : id;
 
   const [match, setMatch] = useState<MatchDetailsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -52,8 +55,6 @@ export default function MatchDetails() {
       }
 
       const data: ApiResponse = await res.json();
-      console.log('API Response:', data);
-
       if (!data.response?.detail) {
         throw new Error('Match not found.');
       }
@@ -68,11 +69,9 @@ export default function MatchDetails() {
   }, [matchId]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchMatchDetails();
-    };
-
-    fetchData().catch((err) => console.error('Unhandled async error:', err));
+    fetchMatchDetails().catch((err) =>
+      console.error('Unhandled async error:', err),
+    );
   }, [fetchMatchDetails]);
 
   if (loading) {
@@ -88,20 +87,42 @@ export default function MatchDetails() {
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold text-center mb-4">
-        {match.homeTeam.name} vs {match.awayTeam.name}
-      </h2>
-      <p className="text-lg font-semibold text-center">{match.matchTimeUTC}</p>
-      <p className="text-center text-gray-600">League: {match.leagueName}</p>
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <Card className="bg-white shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl md:text-3xl font-bold text-blue-700">
+            {match.homeTeam.name} vs {match.awayTeam.name}
+          </CardTitle>
+        </CardHeader>
 
-      {/* Check if 'status' exists before accessing its properties */}
-      {match.status?.started && !match.status.finished && (
-        <p className="text-center text-red-500 font-bold">Live Match</p>
-      )}
-      {match.status?.finished && (
-        <p className="text-center text-green-600 font-bold">Match Finished</p>
-      )}
+        <CardContent className="space-y-4 text-center">
+          <Badge variant="outline" className="text-sm">
+            League: {match.leagueName}
+          </Badge>
+
+          <Separator className="my-2" />
+
+          <p className="text-md text-gray-700">
+            <span className="font-medium text-gray-600">Match Time:</span>{' '}
+            {match.matchTimeUTC}
+          </p>
+
+          {match.status?.started && !match.status.finished && (
+            <Badge variant="destructive" className="text-sm">
+              Live
+            </Badge>
+          )}
+
+          {match.status?.finished && (
+            <Badge className="bg-green-600 hover:bg-green-700">
+              Match Finished
+            </Badge>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

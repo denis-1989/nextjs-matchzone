@@ -1,9 +1,10 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-// Define the expected structure of the match data
 interface Match {
   id: number;
   home: {
@@ -25,7 +26,6 @@ interface Match {
   leagueId: number;
 }
 
-// Define the expected API response structure
 interface ApiResponse {
   response: {
     live: Match[];
@@ -49,14 +49,11 @@ export default function MatchList() {
           },
         },
       );
+
       if (!res.ok) {
-        return (
-          <div className="p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">API not working</h2>
-          </div>
-        );
+        throw new Error('API not working');
       }
-      // Explicitly define data type as ApiResponse
+
       const data: ApiResponse = await res.json();
 
       if (!Array.isArray(data.response.live)) {
@@ -72,50 +69,67 @@ export default function MatchList() {
   }
 
   useEffect(() => {
-    // Corrected: Await fetchMatches() and handle errors properly
     fetchMatches().catch((error) =>
-      console.error('Unhandled async error in fetchMatches:', error),
+      console.error('Unhandled async error:', error),
     );
   }, []);
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Live & Upcoming Matches</h2>
-
-      {loading ? (
-        <p className="text-gray-500">Loading matches...</p>
-      ) : matches.length === 0 ? (
-        <p className="text-gray-500">No live matches available.</p>
-      ) : (
-        <ul className="space-y-4">
-          {matches.map((match) => (
-            <li key={`match-${match.id}`}>
-              <Link
-                href={`/match/${match.id}`}
-                className="block border p-4 rounded-md shadow-md bg-white hover:bg-gray-100 transition"
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold">{match.home.longName}</span>
-                  <span>{match.status.scoreStr}</span>
-                  <span className="font-bold">
-                    {match.away.longName} {match.status.liveTime?.long || ''}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500">
-                  Stage: {match.tournamentStage} | League ID: {match.leagueId}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {match.status.started
-                    ? `Live: ${match.status.liveTime?.long || 'In Progress'}`
-                    : match.status.finished
-                      ? 'Match Finished'
-                      : `Scheduled: ${match.status.utcTime || 'Unknown Time'}`}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <Card>
+        <CardHeader>
+          <CardTitle>Live & Upcoming Matches</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <p className="text-gray-500">Loading matches...</p>
+          ) : matches.length === 0 ? (
+            <p className="text-gray-500">No live matches available.</p>
+          ) : (
+            <ul className="space-y-4">
+              {matches.map((match) => (
+                <li key={`match-${match.id}`}>
+                  <Link
+                    href={`/match/${match.id}`}
+                    className="block border p-4 rounded-md shadow hover:bg-gray-50 transition"
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-gray-800">
+                        {match.home.longName}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        {match.status.scoreStr}
+                      </span>
+                      <span className="font-semibold text-gray-800">
+                        {match.away.longName}{' '}
+                        {match.status.liveTime?.long || ''}
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1 flex gap-2 flex-wrap">
+                      <Badge variant="outline">
+                        Stage: {match.tournamentStage}
+                      </Badge>
+                      <Badge variant="secondary">
+                        League ID: {match.leagueId}
+                      </Badge>
+                      <Badge variant="default">
+                        {match.status.started
+                          ? `Live: ${match.status.liveTime?.long || 'In Progress'}`
+                          : match.status.finished
+                            ? 'Match Finished'
+                            : `Scheduled: ${match.status.utcTime || 'Unknown Time'}`}
+                      </Badge>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 
 interface Team {
@@ -16,7 +17,6 @@ interface Team {
   pts: number;
 }
 
-// API Response Type
 interface ApiResponse {
   response?: {
     standing?: Team[];
@@ -42,9 +42,8 @@ export default function LaLiga() {
           },
         };
 
-        // Fetch Overall Standings
         const overallRes = await fetch(
-          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-all?leagueid=87', // La Liga ID
+          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-all?leagueid=87',
           apiHeaders,
         );
         const overallData: ApiResponse = await overallRes.json();
@@ -52,9 +51,8 @@ export default function LaLiga() {
           setStandings(overallData.response.standing);
         }
 
-        // Fetch Home Standings
         const homeRes = await fetch(
-          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-home?leagueid=87', // La Liga Home ID
+          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-home?leagueid=87',
           apiHeaders,
         );
         const homeData: ApiResponse = await homeRes.json();
@@ -62,9 +60,8 @@ export default function LaLiga() {
           setHomeStandings(homeData.response.standing);
         }
 
-        // Fetch Away Standings
         const awayRes = await fetch(
-          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-away?leagueid=87', // La Liga Away ID
+          'https://free-api-live-football-data.p.rapidapi.com/football-get-standing-away?leagueid=87',
           apiHeaders,
         );
         const awayData: ApiResponse = await awayRes.json();
@@ -73,12 +70,11 @@ export default function LaLiga() {
         }
       } catch (err) {
         setError('Error fetching La Liga standings.');
-        console.error('Error fetching La Liga standings:', err);
+        console.error('Error:', err);
       } finally {
         setLoading(false);
       }
     }
-
     fetchStandings().catch((err) =>
       console.error('Unhandled async error:', err),
     );
@@ -90,81 +86,73 @@ export default function LaLiga() {
     );
   }
 
-  if (error) {
-    return <p className="text-center text-red-500">{error}</p>;
-  }
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
-        La Liga Standings
-      </h2>
-
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse shadow-lg">
-          <thead>
-            <tr className="bg-gray-900 text-white text-center">
-              <th className="border p-3">#</th>
-              <th className="border p-3 text-left">Team</th>
-              <th className="border p-3">Overall Played</th>
-              <th className="border p-3">Overall Points</th>
-              <th className="border p-3">Home Played</th>
-              <th className="border p-3">Home Points</th>
-              <th className="border p-3">Away Played</th>
-              <th className="border p-3">Away Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {standings.map((team, index) => {
-              const homeTeam = homeStandings.find((t) => t.id === team.id);
-              const awayTeam = awayStandings.find((t) => t.id === team.id);
-
-              let rowClass = 'bg-gray-50';
-              if (index < 4) {
-                rowClass = 'bg-green-300';
-              } else if (index === 4) {
-                rowClass = 'bg-red-200';
-              } else if (index === 5) {
-                rowClass = 'bg-yellow-600/20';
-              } else if (index >= standings.length - 3) {
-                rowClass = 'bg-red-400';
-              }
-
-              return (
-                <tr
-                  key={`team-${team.id}`}
-                  className={`${rowClass} text-center hover:bg-gray-200 transition`}
-                >
-                  <td className="border p-3 font-semibold text-gray-700">
-                    {index + 1}
-                  </td>
-                  <td className="border p-3 text-left">
-                    <a
-                      href={`https://example.com${team.pageUrl}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 font-semibold hover:underline"
-                    >
-                      {team.name}
-                    </a>
-                  </td>
-                  <td className="border p-3">{team.played}</td>
-                  <td className="border p-3 font-bold text-gray-800">
-                    {team.pts}
-                  </td>
-                  <td className="border p-3">{homeTeam?.played || '-'}</td>
-                  <td className="border p-3 font-bold text-gray-800">
-                    {homeTeam?.pts || '-'}
-                  </td>
-                  <td className="border p-3">{awayTeam?.played || '-'}</td>
-                  <td className="border p-3 font-bold text-gray-800">
-                    {awayTeam?.pts || '-'}
-                  </td>
+    <div
+      className="p-12 min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <div className="max-w-6xl mx-auto">
+        <Card className="bg-white/90 backdrop-blur-md shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl md:text-3xl font-bold text-gray-800">
+              La Liga Standings
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm md:text-base">
+              <thead>
+                <tr className="bg-gray-900 text-white text-center">
+                  <th className="p-3">#</th>
+                  <th className="p-3 text-left">Team</th>
+                  <th className="p-3">Played</th>
+                  <th className="p-3">Points</th>
+                  <th className="p-3">Home</th>
+                  <th className="p-3">Home Pts</th>
+                  <th className="p-3">Away</th>
+                  <th className="p-3">Away Pts</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {standings.map((team, index) => {
+                  const home = homeStandings.find((t) => t.id === team.id);
+                  const away = awayStandings.find((t) => t.id === team.id);
+
+                  let bg = 'bg-white';
+                  if (index < 4) bg = 'bg-green-100';
+                  else if (index === 4) bg = 'bg-yellow-100';
+                  else if (index >= standings.length - 3) bg = 'bg-red-100';
+
+                  return (
+                    <tr
+                      key={`team-${team.id}`}
+                      className={`${bg} text-center hover:bg-gray-100 transition`}
+                    >
+                      <td className="p-3 font-semibold">{index + 1}</td>
+                      <td className="p-3 text-left font-medium text-blue-700">
+                        <a
+                          href={`https://example.com${team.pageUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {team.name}
+                        </a>
+                      </td>
+                      <td className="p-3">{team.played}</td>
+                      <td className="p-3 font-bold">{team.pts}</td>
+                      <td className="p-3">{home?.played || '-'}</td>
+                      <td className="p-3 font-bold">{home?.pts || '-'}</td>
+                      <td className="p-3">{away?.played || '-'}</td>
+                      <td className="p-3 font-bold">{away?.pts || '-'}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

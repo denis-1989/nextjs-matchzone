@@ -6,6 +6,14 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 
+export const metadata = {
+  title: 'MatchZone',
+  description: 'Live football scores and stats.',
+  icons: {
+    icon: '/favicon.ico', // This works because it's inside the public folder
+  },
+};
+
 export default async function Layout({ children }: { children: ReactNode }) {
   const sessionTokenCookie = (await cookies()).get('sessionToken');
   const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));

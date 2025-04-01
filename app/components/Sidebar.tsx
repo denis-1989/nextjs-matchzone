@@ -1,10 +1,10 @@
 'use client';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { Globe2, Trophy } from 'lucide-react';
 import type { Route } from 'next';
 import Link from 'next/link';
+import { ScrollArea } from '../../components/ui/scroll-area';
+import { Separator } from '../../components/ui/separator';
 
 const routes = {
   home: '/' as Route,

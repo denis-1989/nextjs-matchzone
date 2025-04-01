@@ -12,8 +12,8 @@ export async function up(sql: Sql) {
       away_team_name varchar(100) NOT NULL,
       away_team_id integer NOT NULL,
       league_name varchar(100) NOT NULL,
-      status_started boolean DEFAULT false,
-      status_finished boolean DEFAULT false
+      status_started boolean DEFAULT FALSE,
+      status_finished boolean DEFAULT FALSE
     );
   `;
 }

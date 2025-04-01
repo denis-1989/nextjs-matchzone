@@ -38,10 +38,7 @@ export default function RegisterForm(props: Props) {
     //   (props.returnTo) || `/profile/${data.user.username}`,
     // );
 
-    router.push(
-      getSafeReturnToPath(props.returnTo) ||
-        (`/profile/${data.user.username}` as Route),
-    );
+    router.push(getSafeReturnToPath(props.returnTo) || ('/' as Route));
 
     router.refresh();
   }

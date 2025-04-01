@@ -1,9 +1,14 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
+import { Badge } from '../../../components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card';
+import { Separator } from '../../../components/ui/separator';
 
 interface Team {
   id: number;

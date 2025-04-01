@@ -1,5 +1,10 @@
 import PlayerList from './PlayerList';
 
+export const metadata = {
+  title: 'Players | MatchZone',
+  description: 'Check out detailed information about football players.',
+};
+
 // Define API Response Structure
 interface Player {
   id: string;

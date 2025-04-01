@@ -27,7 +27,7 @@ export async function up(sql: Sql) {
       preferred_foot varchar(20),
       market_value varchar(50),
       image_url text,
-      team_id integer REFERENCES teams (id) ON DELETE CASCADE
+      team_id integer REFERENCES teams (id) ON DELETE cascade
     );
   `;
 }

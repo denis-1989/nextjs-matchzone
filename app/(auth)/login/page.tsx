@@ -3,6 +3,11 @@ import { redirect } from 'next/navigation';
 import { getValidSessionToken } from '../../../database/sessions';
 import LoginForm from './LoginForm';
 
+export const metadata = {
+  title: 'Login | MatchZone',
+  description: 'Login to access your MatchZone account.',
+};
+
 type Props = {
   searchParams: Promise<{
     returnTo?: string | string[];

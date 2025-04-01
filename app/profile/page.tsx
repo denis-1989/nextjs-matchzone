@@ -1,8 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Button } from '../../components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../../components/ui/card';
 import { getUser } from '../../database/users';
+
+export const metadata = {
+  title: 'Your Profile - MatchZone',
+  description:
+    'Manage your preferences and follow your favorite teams and players.',
+};
 
 export default async function ProfilePage() {
   const sessionTokenCookie = (await cookies()).get('sessionToken');

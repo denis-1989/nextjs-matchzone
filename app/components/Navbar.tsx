@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 import LogoutButton from '../(auth)/logout/LogoutButton';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
 import { appRoutes } from '../../util/routes';
 
 export default function Navbar({
@@ -54,7 +54,6 @@ export default function Navbar({
           </Link>
         </nav>
 
-        {/* Search + Auth */}
         <div className="hidden md:flex items-center gap-4">
           <Input type="text" placeholder="Search..." className="w-48" />
           {!user ? (

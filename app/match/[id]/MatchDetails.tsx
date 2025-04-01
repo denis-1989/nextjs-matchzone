@@ -1,10 +1,15 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { Badge } from '../../../components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card';
+import { Separator } from '../../../components/ui/separator';
 
 interface MatchDetailsData {
   matchId: string;

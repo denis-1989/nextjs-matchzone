@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+
+## technologies
+
+- Next.js
+- Postgres
+- Jest
+- Playwright
+- Fly.io
+
 ## Getting Started
 
 First, run the development server:
@@ -13,6 +22,28 @@ pnpm dev
 # or
 bun dev
 ```
+
+## tests
+
+### Jest
+
+```bash
+pnpm jest
+```
+
+## Playwright
+
+```bash
+pnpm playwright test
+```
+
+## Deployment
+
+Deployed the project on Fly.io
+
+
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

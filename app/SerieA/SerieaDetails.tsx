@@ -135,11 +135,13 @@ export default function SeriaA() {
 
                     let rowClass = '';
                     if (index < 4) {
-                      rowClass = 'bg-green-100';
+                      rowClass = 'bg-blue-800 text-white';
                     } else if (index === 4) {
-                      rowClass = 'bg-yellow-100';
+                      rowClass = 'bg-orange-500 text-white';
+                    } else if (index === 5) {
+                      rowClass = 'bg-yellow-400';
                     } else if (index >= standings.length - 3) {
-                      rowClass = 'bg-red-100';
+                      rowClass = 'bg-red-600 text-white';
                     }
 
                     return (
@@ -147,10 +149,8 @@ export default function SeriaA() {
                         key={`team-${team.id}`}
                         className={`${rowClass} text-center hover:bg-gray-100 transition`}
                       >
-                        <td className="p-3 font-semibold text-gray-700">
-                          {index + 1}
-                        </td>
-                        <td className="p-3 text-left font-medium text-blue-700">
+                        <td className="p-3 font-semibold">{index + 1}</td>
+                        <td className="p-3 text-left font-medium">
                           <a
                             href={`https://example.com${team.pageUrl}`}
                             target="_blank"
@@ -160,20 +160,14 @@ export default function SeriaA() {
                             {team.name}
                           </a>
                         </td>
-                        <td className="p-3 text-gray-700">{team.played}</td>
-                        <td className="p-3 font-semibold text-gray-800">
-                          {team.pts}
-                        </td>
-                        <td className="p-3 text-gray-600">
-                          {homeTeam?.played || '-'}
-                        </td>
-                        <td className="p-3 font-semibold text-gray-700">
+                        <td className="p-3">{team.played}</td>
+                        <td className="p-3 font-semibold">{team.pts}</td>
+                        <td className="p-3">{homeTeam?.played || '-'}</td>
+                        <td className="p-3 font-semibold">
                           {homeTeam?.pts || '-'}
                         </td>
-                        <td className="p-3 text-gray-600">
-                          {awayTeam?.played || '-'}
-                        </td>
-                        <td className="p-3 font-semibold text-gray-700">
+                        <td className="p-3">{awayTeam?.played || '-'}</td>
+                        <td className="p-3 font-semibold">
                           {awayTeam?.pts || '-'}
                         </td>
                       </tr>
@@ -181,6 +175,25 @@ export default function SeriaA() {
                   })}
                 </tbody>
               </table>
+            </div>
+
+            <div className="mt-6 text-sm text-gray-800 space-y-2">
+              <p className="flex items-center gap-2">
+                <span className="inline-block w-4 h-4 bg-blue-800 rounded-sm" />
+                <strong>Champions League Qualification</strong>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="inline-block w-4 h-4 bg-orange-500 rounded-sm" />
+                <strong>Europa League Qualification</strong>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="inline-block w-4 h-4 bg-yellow-400 rounded-sm" />
+                <strong>Conference League Qualification</strong>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="inline-block w-4 h-4 bg-red-600 rounded-sm" />
+                <strong>Relegation Zone</strong>
+              </p>
             </div>
           </CardContent>
         </Card>

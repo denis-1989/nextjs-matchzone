@@ -24,30 +24,39 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[url('/team-header1.jpg')] bg-cover bg-center">
-      <Card className="w-full max-w-md bg-white/90 backdrop-blur-md shadow-xl rounded-2xl">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl font-bold text-blue-800">
-            {user.username}'s Profile
-          </CardTitle>
-        </CardHeader>
+    <div
+      className="min-h-screen p-12 bg-cover bg-center"
+      style={{ backgroundImage: "url('/team-header1.jpg')" }}
+    >
+      <div className="max-w-4xl mx-auto">
+        <Card className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl">
+          <CardHeader>
+            <CardTitle className="text-center text-3xl md:text-4xl font-extrabold text-blue-800">
+              Welcome, {user.username}
+            </CardTitle>
+          </CardHeader>
 
-        <CardContent className="text-center space-y-6">
-          <p className="text-gray-700 text-base">
-            Welcome to your MatchZone profile! Here you can manage your teams,
-            favorite leagues, and personal preferences.
-          </p>
+          <CardContent className="space-y-6 text-center px-6 pb-10">
+            <p className="text-gray-700 text-lg leading-relaxed">
+              This is your personal MatchZone dashboard. Here you can manage
+              your favorite teams, update your preferences, and explore new
+              leagues or players.
+            </p>
 
-          <div className="space-y-3">
-            <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white">
-              Edit Profile
-            </Button>
-            {/* <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
-              Logout
-            </Button> */}
-          </div>
-        </CardContent>
-      </Card>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
+              <Button className="bg-blue-700 hover:bg-blue-800 text-white">
+                Edit Profile
+              </Button>
+              <Button
+                variant="outline"
+                className="border-blue-700 text-blue-700 hover:bg-blue-50"
+              >
+                Change Password
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

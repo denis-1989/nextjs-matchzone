@@ -33,44 +33,57 @@ export default function RegisterForm(props: Props) {
       return;
     }
 
-    // This is not a safe returnTo setup
-    // router.push(
-    //   (props.returnTo) || `/profile/${data.user.username}`,
-    // );
-
     router.push(getSafeReturnToPath(props.returnTo) || ('/' as Route));
-
     router.refresh();
   }
 
   return (
-    <div>
-      <form onSubmit={handleRegister}>
-        <label>
-          Username
+    <div
+      className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
+      style={{
+        backgroundImage: "url('/register-photo.jpg')",
+      }}
+    >
+      <form
+        onSubmit={handleRegister}
+        className="absolute top-1/3 transform -translate-y-1/2 bg-white/90 backdrop-blur-md p-8 rounded-xl shadow-lg w-full max-w-md"
+      >
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Register to MatchZone
+        </h1>
+
+        <label className="block mb-4">
+          <span className="block text-sm font-medium text-gray-700">
+            Username
+          </span>
           <input
             value={username}
             onChange={(event) => setUsername(event.currentTarget.value)}
+            className="mt-1 block w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500"
           />
         </label>
-        <label>
-          Password
+
+        <label className="block mb-6">
+          <span className="block text-sm font-medium text-gray-700">
+            Password
+          </span>
           <input
             type="password"
             value={password}
             onChange={(event) => setPassword(event.currentTarget.value)}
+            className="mt-1 block w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500"
           />
         </label>
 
-        <button>Register</button>
+        <button className="w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 transition">
+          Register
+        </button>
 
-        {errors?.map((error) => {
-          return (
-            <div key={`error-${error.message}-${Math.random()}`}>
-              <ErrorMessage>{error.message}</ErrorMessage>
-            </div>
-          );
-        })}
+        {errors?.map((error) => (
+          <div key={`error-${error.message}-${Math.random()}`}>
+            <ErrorMessage>{error.message}</ErrorMessage>
+          </div>
+        ))}
       </form>
     </div>
   );

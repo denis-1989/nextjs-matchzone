@@ -104,7 +104,6 @@ export default function TeamDetails({ teamId }: TeamDetailsProps) {
           </CardHeader>
 
           <CardContent>
-            {/* Home Matches */}
             <section className="mb-8">
               <h2 className="text-xl font-bold text-blue-700 mb-4 border-b pb-2">
                 Home Matches
@@ -136,7 +135,6 @@ export default function TeamDetails({ teamId }: TeamDetailsProps) {
 
             <Separator className="my-6" />
 
-            {/* Away Matches */}
             <section>
               <h2 className="text-xl font-bold text-blue-700 mb-4 border-b pb-2">
                 Away Matches

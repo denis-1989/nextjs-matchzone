@@ -10,7 +10,14 @@ export const metadata = {
   title: 'MatchZone',
   description: 'Live football scores and stats.',
   icons: {
-    icon: '/favicon.ico', // This works because it's inside the public folder
+    icon: [
+      { rel: 'icon', url: '/favicon copy.ico', type: 'image/x-icon' },
+      {
+        rel: 'apple-touch-icon',
+        url: '/apple-touch-icon.png',
+        type: 'image/png',
+      },
+    ],
   },
 };
 

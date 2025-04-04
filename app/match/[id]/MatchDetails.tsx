@@ -96,38 +96,43 @@ export default function MatchDetails() {
       className="p-12 min-h-screen bg-cover bg-center"
       style={{ backgroundImage: "url('/team-header1.jpg')" }}
     >
-      <Card className="bg-white shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl md:text-3xl font-bold text-blue-700">
-            {match.homeTeam.name} vs {match.awayTeam.name}
-          </CardTitle>
-        </CardHeader>
+      <div className="max-w-3xl mx-auto">
+        <Card className="bg-white/90 shadow-xl rounded-xl border border-gray-200">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl md:text-3xl font-extrabold text-blue-1000">
+              {match.homeTeam.name} vs {match.awayTeam.name}
+            </CardTitle>
+          </CardHeader>
 
-        <CardContent className="space-y-4 text-center">
-          <Badge variant="outline" className="text-sm">
-            League: {match.leagueName}
-          </Badge>
-
-          <Separator className="my-2" />
-
-          <p className="text-md text-gray-700">
-            <span className="font-medium text-gray-600">Match Time:</span>{' '}
-            {match.matchTimeUTC}
-          </p>
-
-          {match.status?.started && !match.status.finished && (
-            <Badge variant="destructive" className="text-sm">
-              Live
+          <CardContent className="space-y-6 text-center">
+            <Badge
+              variant="outline"
+              className="text-sm border border-blue-900 text-blue-1000"
+            >
+              League: {match.leagueName}
             </Badge>
-          )}
 
-          {match.status?.finished && (
-            <Badge className="bg-green-600 hover:bg-green-700">
-              Match Finished
-            </Badge>
-          )}
-        </CardContent>
-      </Card>
+            <Separator className="my-2" />
+
+            <p className="text-md text-gray-800">
+              <span className="font-medium">Match Time:</span>{' '}
+              {match.matchTimeUTC}
+            </p>
+
+            {match.status?.started && !match.status.finished && (
+              <Badge className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 text-sm">
+                LIVE
+              </Badge>
+            )}
+
+            {match.status?.finished && (
+              <Badge className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 text-sm">
+                MATCH FINISHED
+              </Badge>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

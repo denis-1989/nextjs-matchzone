@@ -8,7 +8,7 @@ MatchZone is a football platform designed for fans who want to explore live matc
 
 ## Screenshot
 
-![MatchZone Live Matches](./public/matchzone-live-matches.png)ball API.
+![MatchZone Live Matches](./public/matchzone-live-matches.png).
 
 ## Disclaimer
 

@@ -12,7 +12,7 @@ MatchZone is a football platform designed for fans who want to explore live matc
 
 ## Disclaimer
 
-Some functionalities of MatchZone depend on a third-party Football API.  
+Some functionalities of MatchZone depend on a third party Football API.  
 In rare cases, if the API service is down or undergoing maintenance, live match data, standings, or player information may not be available or fully updated.  
 Thank you for your understanding!
 
